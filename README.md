@@ -9,7 +9,7 @@ Node.js is a JavaScript runtime built on Chrome’s V8 JavaScript engine. Node.j
 
 # Build and Run Project
 ## Install
-When you  pull/clone/download this project from github, you need to install some dependencies to get the server going.
+When you pull/clone/download this project from github, you need to install some dependencies to get the server going.
 ```
 git clone <THIS_PROJ>
 cd THIS_PROJ
