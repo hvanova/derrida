@@ -65,6 +65,10 @@ d3.csv("combined.csv", function(data) {
 
 // http://bl.ocks.org/weiglemc/6185069
     // draw the y axis
+
+
+    // max plus 1 on the data
+    // could toggle the log on and off
     var yAxis = d3.svg.axis()
     	.scale(y)
     	.orient('left');
@@ -74,12 +78,37 @@ d3.csv("combined.csv", function(data) {
     	.attr('class', 'main axis date')
     	.call(yAxis);
 
+
+        // Define the div for the tooltip
+    var div = d3.select("body").append("div")   
+        .attr("class", "tooltip")               
+        .style("opacity", 0);
+
+
     var g = main.append("svg:g"); 
-    
+
     g.selectAll("scatter-dots")
-      .data(data)
-      .enter().append("svg:circle")
-          .attr("cx", function (d,i) { return x(d.page); } )
-          .attr("cy", function (d) { return y(d.Date); } )
-          .attr("r", 8);
+        .data(data)
+        .enter().append("svg:circle")
+        .attr("cx", function (d,i) { return x(d.page); } )
+        .attr("cy", function (d) { return y(d.Date); } )
+        .attr("r", 8);
+        .on("mouseover", function(d) {
+            div.transition()     
+                .duration(200)      
+                .style("opacity", .9);      
+            div .html(d.Date)  
+            // .style("left", (d3.event.pageX) + "px")     
+            // .style("top", (d3.event.pageY - 28) + "px");    
+            })
+        .on("mouseout", function(d) {     
+            div.transition()        
+                .duration(500)      
+                .style("opacity", 0);   
+        });
+
+
+
+
+
 });
