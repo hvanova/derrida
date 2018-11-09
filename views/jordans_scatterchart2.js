@@ -92,7 +92,7 @@ d3.csv("combined.csv", function(data) {
         .enter().append("svg:circle")
         .attr("cx", function (d,i) { return x(d.page); } )
         .attr("cy", function (d) { return y(d.Date); } )
-        .attr("r", 8);
+        .attr("r", 8)
         .on("mouseover", function(d) {
             div.transition()     
                 .duration(200)      
