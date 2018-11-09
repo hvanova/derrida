@@ -20,7 +20,6 @@ d3.csv("combined.csv", function(data) {
     });
 
   // console.log(data);
-
 // var data = [[5,3], [10,17], [15,4], [2,8]];
    
     var margin = {top: 20, right: 15, bottom: 60, left: 60}
@@ -57,12 +56,10 @@ d3.csv("combined.csv", function(data) {
     	.attr('class', 'main axis date')
     	.call(xAxis);
 
-
 // scale the yAxis
     var axisScale = d3.scale.linear()               
       .domain([0,100])
       .range([0,100]);
-
 
 // https://www.dashingd3js.com/d3js-axes
 
