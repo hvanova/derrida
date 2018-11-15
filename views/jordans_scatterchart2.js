@@ -1,12 +1,12 @@
 d3.csv("combined.csv", function(data) {
     // Convert strings to numbers.
     data.forEach(function(d) {
-        if (d.Date == 'NA' || d.PublicationYear == 'NA' ){
-            d.Date = 0;
+        if (d.Publication_Year == 'NA' ){
+            d.Publication_Year = 0;
         }
         else{
-            d.Date = +d.Date;
-            d.PublicationYear = +d.PublicationYear;
+            // d.Date = +d.Date;
+            d.Publication_Year = +d.Publication_Year;
         }
 
         if (d.page == 'NaN' || d.page == 'NA' ){
@@ -15,15 +15,12 @@ d3.csv("combined.csv", function(data) {
         else{
             d.page = +d.page;
         }
-
         // if (d.booktitle == 'NaN' || d.page == 'NA' ){
         //     d.page = 0; 
         // }
         // else{
         //     d.page = +d.page;
         // }
-
-
     });
 
   // console.log(data);
@@ -34,11 +31,11 @@ d3.csv("combined.csv", function(data) {
       , height = 500 - margin.top - margin.bottom;
     
     var x = d3.scale.linear()
-              .domain([0, d3.max(data, function (d) { return d.page; })])
+              .domain([0, d3.max(data, function (d) { return d.avg_pos_EL; })])
               .range([ 0, width ]);
     
     var y = d3.scale.linear()
-    	      .domain([0, d3.max(data, function (d) { return d.Date; })])
+    	      .domain([0, d3.max(data, function (d) { return d.Publication_Year; })])
     	      .range([ height, 0 ]);
  
     var chart = d3.select('body')
@@ -86,10 +83,42 @@ d3.csv("combined.csv", function(data) {
     	.call(yAxis);
 
 
-        // Define the div for the tooltip
+    // Define the div for the tooltip
     var div = d3.select("body").append("div")   
         .attr("class", "tooltip")               
         .style("opacity", 0);
+
+// setup fill color
+    var cValue = function(d) { return d.Language;},
+        color = d3.scale.category10();
+
+
+// // draw legend
+//     var legend = svg.selectAll(".legend")
+//         .data(color.domain())
+//         .enter().append("g")
+//             .attr("class", "legend")
+//             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+//   // draw legend colored rectangles
+//   legend.append("rect")
+//       .attr("x", width - 18)
+//       .attr("width", 18)
+//       .attr("height", 18)
+//       .style("fill", color);
+
+//   // draw legend text
+//   legend.append("text")
+//       .attr("x", width - 24)
+//       .attr("y", 9)
+//       .attr("dy", ".35em")
+//       .style("text-anchor", "end")
+//       .text(function(d) { return d;})
+
+
+
+
+
 
 
     var g = main.append("svg:g"); 
@@ -97,25 +126,29 @@ d3.csv("combined.csv", function(data) {
     g.selectAll("scatter-dots")
         .data(data)
         .enter().append("svg:circle")
-        .attr("cx", function (d,i) { return x(d.page); } )
-        .attr("cy", function (d) { return y(d.Date); } )
+        .attr("cx", function (d,i) { return x(d.avg_pos_EL); } )
+        .attr("cy", function (d) { return y(d.Publication_Year); } )
         .attr("r", 8)
+        .style("fill", function(d) { return color(cValue(d));})
+
         .on("mouseover", function(d) {
             div.transition()     
                 .duration(200)      
                 .style("opacity", .9);      
-            div .html(d.Date, d.book.title)  
+            div.html(d.book_title +
+                "<br/>Author: " + d.Author +
+                "<br/>Publication Year: " + d.Publication_Year + 
+                "<br/>Reference Type: " + 
+                d.ref_type)  
+                .style("left", (d3.event.pageX) + "px")     
+                .style("top", (d3.event.pageY - 28) + "px");
             // .style("left", (d3.event.pageX) + "px")     
             // .style("top", (d3.event.pageY - 28) + "px");    
             })
         .on("mouseout", function(d) {     
             div.transition()        
-                .duration(500)      
+                .duration(500)   
                 .style("opacity", 0);   
         });
-
-
-
-
 
 });
