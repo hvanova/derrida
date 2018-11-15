@@ -16,6 +16,13 @@ d3.csv("combined.csv", function(data) {
             d.page = +d.page;
         }
 
+        // if (d.booktitle == 'NaN' || d.page == 'NA' ){
+        //     d.page = 0; 
+        // }
+        // else{
+        //     d.page = +d.page;
+        // }
+
 
     });
 
@@ -97,7 +104,7 @@ d3.csv("combined.csv", function(data) {
             div.transition()     
                 .duration(200)      
                 .style("opacity", .9);      
-            div .html(d.Date)  
+            div .html(d.Date, d.book.title)  
             // .style("left", (d3.event.pageX) + "px")     
             // .style("top", (d3.event.pageY - 28) + "px");    
             })
