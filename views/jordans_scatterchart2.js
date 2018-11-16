@@ -92,35 +92,6 @@ d3.csv("combined.csv", function(data) {
     var cValue = function(d) { return d.Language;},
         color = d3.scale.category10();
 
-
-// // draw legend
-//     var legend = svg.selectAll(".legend")
-//         .data(color.domain())
-//         .enter().append("g")
-//             .attr("class", "legend")
-//             .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
-
-//   // draw legend colored rectangles
-//   legend.append("rect")
-//       .attr("x", width - 18)
-//       .attr("width", 18)
-//       .attr("height", 18)
-//       .style("fill", color);
-
-//   // draw legend text
-//   legend.append("text")
-//       .attr("x", width - 24)
-//       .attr("y", 9)
-//       .attr("dy", ".35em")
-//       .style("text-anchor", "end")
-//       .text(function(d) { return d;})
-
-
-
-
-
-
-
     var g = main.append("svg:g"); 
 
     g.selectAll("scatter-dots")
@@ -128,7 +99,7 @@ d3.csv("combined.csv", function(data) {
         .enter().append("svg:circle")
         .attr("cx", function (d,i) { return x(d.avg_pos_EL); } )
         .attr("cy", function (d) { return y(d.Publication_Year); } )
-        .attr("r", 8)
+        .attr("r", 5)
         .style("fill", function(d) { return color(cValue(d));})
 
         .on("mouseover", function(d) {
@@ -150,5 +121,34 @@ d3.csv("combined.csv", function(data) {
                 .duration(500)   
                 .style("opacity", 0);   
         });
+
+
+
+
+// draw legend
+    var legend = svg.selectAll(".legend")
+        .data(color.domain())
+        .enter().append("g")
+            .attr("class", "legend")
+            .attr("transform", function(d, i) { return "translate(0," + i * 20 + ")"; });
+
+  // draw legend colored rectangles
+  legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", color);
+
+  // draw legend text
+  legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text(function(d) { return d;})
+
+
+
+
 
 });
